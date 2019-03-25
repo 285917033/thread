@@ -6,7 +6,10 @@ import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 /**
+ * ThreadLocal 保证线程安全
+ * 
  * 为每一个线程分配不同的对象，需要在应用层面保证，ThreadLocal只是起到了简单的容器作用
+ * 如果为每一个线程分配同一个对象，那么ThreadLocal也不能保证线程安全。
  * @author jwh
  *
  */

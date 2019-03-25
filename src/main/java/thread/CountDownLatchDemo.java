@@ -39,7 +39,7 @@ public class CountDownLatchDemo implements Runnable {
 		}
 		
 		try {
-			//要求主线程等待所以10个检查任务全部完成，主线程才能执行
+			//要求主线程等待所有10个检查任务全部完成，主线程才能执行
 			end.await();
 			
 			System.out.println("已经准备好...开始工作");
