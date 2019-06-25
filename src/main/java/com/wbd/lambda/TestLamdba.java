@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TestLamdba {
 
@@ -84,6 +85,10 @@ public class TestLamdba {
 			}).collect(Collectors.toList());
 		//l2.forEach(x->System.out.println(x));
 		l2.forEach(System.out::print);
+	
+	
 	}
+	
+	
 
 }
