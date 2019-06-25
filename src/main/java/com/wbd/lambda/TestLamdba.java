@@ -21,13 +21,13 @@ public class TestLamdba {
 //		}).start();
 		
 		
-		new Thread(()->System.out.println("java 8 lamdba ")).start();
+		//new Thread(()->System.out.println("java 8 lamdba ")).start();
 
 		
 		List<String>  t = Arrays.asList("Lambdas", "Default Method", "Stream API", "Date and Time API");
 		
 		
-		t.forEach(n->System.out.println(n));
+		//t.forEach(n->System.out.println(n));
 		
 		//
 		IntBinaryOperator i = (int x,int y) ->{
@@ -36,9 +36,9 @@ public class TestLamdba {
 		
 		IntBinaryOperator i2 = (int x,int y) ->x+y+2;
 		
-		System.out.println(i.add(2, 3));
+		//System.out.println(i.add(2, 3));
 		
-		System.out.println(i2.add(5, 3));
+		//System.out.println(i2.add(5, 3));
 		
 		//函数体有多行代码，不可以省略{}与return关键字
 		
@@ -49,11 +49,11 @@ public class TestLamdba {
 			return Integer.compare(x, y);
 		};
 		
-		System.out.println(com.compare(5, 5));
+		//System.out.println(com.compare(5, 5));
 		
 		//函数体只有一行代码，可以省略{}与return关键字
 		Comparator<Integer> com1 = (x,y)->Integer.compare(x, y);
-		System.out.println(com.compare(5, 6));
+		//System.out.println(com.compare(5, 6));
 		
 		
 		//排序
@@ -70,16 +70,19 @@ public class TestLamdba {
 			
 		});
 		
-		l.forEach(x->System.out.println(x));
+		//l.forEach(x->System.out.println(x));
 		
 		//lambda写法
 		
 		Collections.sort(l, (x,y)->x.compareTo(y));
 		
-		l.forEach(x->System.out.println(x));
+		//l.forEach(x->System.out.println(x));
 		
-		List<String> l2 = l.stream().map(name->name.toUpperCase()).collect(Collectors.toList());
-		l2.forEach(x->System.out.println(x));
+		List<String> l2 = l.stream().map(name->{
+			 System.out.println(new TestLamdba().getClass().getName());
+			return name.toUpperCase();
+			}).collect(Collectors.toList());
+		//l2.forEach(x->System.out.println(x));
 		l2.forEach(System.out::print);
 	}
 
