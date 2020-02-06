@@ -16,9 +16,8 @@
   
 5.线程分为：守护线程和用户线程。
   
-6.java语言中， long和double以外的任何类型的变量写操作都是原子性操作，即对基础类型(long/double除外,包括byte,boolean
-  
-     ,short,char,float和int)变量和引用变量的写操作都是原子的。
+6.java语言中， long和double以外的任何类型的变量写操作都是原子性操作，即对基础类型(long/double除外,包括byte,boolean,
+   short,char,float和int)变量和引用变量的写操作都是原子的。
 7.多线程产生的问题：原子性(利用锁或者CAS(比较交互，硬件锁)实现原子性)，可见性，有序性
   
   1.原子性(利用锁(软件锁)或者CAS(比较交互，硬件锁)实现原子性)，原子操作多线程环境下个一个概念，他是针对
@@ -27,12 +26,8 @@
    即其他线程不会看到该操作执行了部分中间结果
    b.访问同一组共享变量的原子操作时不能被交错的。
    
-   在java语言中 ,long和double以外的任何类型变量，包括引用变量的写操作都是原子操作，可以在long和double前面加入volatile关键字， 但是
    
-   volatile只保证写的原子性，
-   java中对任何变量的读操作都是原子性的，
-   
-   
+ 
   
 8.脏读：读到过期的数据，丢失更新：某些线程所作的更新被其他线程所作的更新覆盖
   
@@ -71,6 +66,22 @@
     2. 读线程持有锁的时间比较长
     
 18.volatile 轻量级锁
+
+ volatile 翻译为易挥发的， 不稳定的。用于修饰共享可变变量，即没有使用final关键字修饰的实例变量或者静态变量，
+    volatile常常被称为轻量级锁 ， 其作用与锁的作用有相同的地方 ， volatile的作用：
+ 1. 保证可见性和有序性，
+ 2. 保障long/double变量读写操作的原子性.所不同的是， 在原子性方面它仅能保障写volaitle变量操作的原子性，
+        但是没有锁的排他性，其次volatile使用不会导致上下文切换。
+   
+   在java语言中 ,long和double以外的任何类型变量，包括引用变量的写操作都是原子操作，可以在long和double前面加入volatile关键字保证
+   原子性， 但是volatile只保证写的原子性， volatile不会导致线程上下文切换的开销。
+ java中对任何变量的读操作都是原子性的，
+   
+ 3.在原子性方面，volatile仅能够保障long/double变量写操作的原子性，如果要保障对volatile变量的赋值
+  操作的线程安全，那么赋值操作右边的表达式不能涉及任何共享变量(包括被赋值的变量本身)，但是可以是局部变量。
+  volatile关键字在可见性，有序性，和原子性方面的保障并不会对其修饰的数组的数组元素的读，写起作用。 
+   
+
     保证可见性和有序性，与锁不同的是， 锁保证原子性和排他性，而volatile只保证原子性，但是volatile
     不会引起上下文切换， 所以被称为轻量级锁。
     
@@ -85,16 +96,44 @@
 
     但是volatile的开销比普通变量要高一些，
    
- volatile的应用场景：  volatile除了保证数据的读，写操作的原子性(long/double除外)，典型场景还有如下：
+ volatile的应用场景：  volatile除了保证数据的读，写操作的原子性(long/double)，典型场景还有如下：
+  
+  1.使用volatile变量作为状态标志。
+  2.使用volatile保障可见性。
+  3.使用volatile变量代替锁。
+  4.使用volatile保障可见性。
+  
+  
   
  19.CAS只保障共享变量更新操作的原子性， 不保障可见性 
 
   volatile只保证可见性， 不保证原子性。
   
+  CAS出现的原因:
+  
+  public void increment(){
+  synchorized(this){
+   count ++;
+  }
+  }
+  这里使用锁来保障原子性显得有点杀鸡用牛刀的样子， 锁固然是功能最强大，使用范围也很广泛的同步机制，但是毕竟
+  他的开销也是最大的， 另外，volatile虽然开销小一点， 但是无法保障count++ 这种自增操作的原子性，所以就
+ 出现了CAS，CAS能将read-modify-write和check-and-act之类的操作转换为原子操作，
+ count++实际上是一个 read-modify-writer操作，  CAS伪代码如下：
+ 
+ boolean comparedAndSwap(Variable V,Object A,Ojbect B){
+ if(A== V.get()) //check 检查变量值是否被其他线程修改过
+    V.set(b); // 更新变量值
+    return true; //更新成功
+ }
+  
+  return false; //变量值已经被其他线程修改， 更新失败
+  
+  
 20，原子操作工具，原子变量类 Atomics
-  atomic是基于CAS实现的能保证对共享变量进行 reader-modify-writer更新操作的原子性和可见性的
-  一组工具，
-  原子变量类相当于基于CAS实现的增强型voloatile变量。
+  atomic是基于CAS实现的能保证对共享变量进行 read-modify-writer更新操作的原子性和可见性的
+  一组工具类，
+  原子变量类相当于基于CAS实现的增强型volatile变量。
   
   原子变量类有12个，如下分类
   
@@ -103,6 +142,24 @@
  字段更新器 AtomicIntegerFieldUpdater AtomicLongFieldUpdater AtomicReferenceFieldUpdater
  引用型 AtomicReference AtomicStampedReference AtomicMarkableReference
    
+   
+20-1 wait,notify方法
+
+   一个线程因执行目标动作所需要的保护条件未满足而被暂停的过程就被称为等待(wait),一个线程更新了系统的状态，
+   使得其他线程所需的保护条件得以满足的时候唤醒那些被暂停的线程过程就被称为通知(notify) ,
+ wait暂停当前线程时释放的锁只是与该wait方法所属对象的内部锁，当前线程所持有的其他内部锁，显示锁并不会因此而释放。
+ 
+ Thread.join()可以是当前线程等待目标线程结束之后才继续运行，
+ 
+ Condition接口可作为wait/notify的替代品来实现等待/通知，它为解决过早唤醒问题提供了支持，该接口定义的
+ await方法，signal,signall方法相当于 Object.wait(),notify(),notifyAll();
+ 
+ 
+ 
+ 
+ 20-2 ,倒计时协调器
+ 
+ 20-3, CyclicBarrier 栅栏
  
 21.并发集合
 
@@ -138,14 +195,54 @@ public class ArrayBlockingQueue<E>extends AbstractQueue<E>implements BlockingQue
 
 22.线程池
 
+创建线程的方式(建议采用线程池方式)
+1.
+ExecutorService es = Executors.newFixedThreadPool(20);
+		for(int i=0;i<100;i++) {
+			
+			es.execute(new TestThreadPool2(i));
+		}
+		
+2. 
+ 
+ 	//当前服务器cpu数量
+		final static int N_CPU = Runtime.getRuntime().availableProcessors();
+		
+		final ThreadPoolExecutor  executor = new ThreadPoolExecutor(2, N_CPU*2, 4, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(N_CPU*8), new ThreadPoolExecutor.CallerRunsPolicy());
+		
+		executor.submit(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		executor.shutdown();
+	
+
+3.实用工具类Executors，与ExecutorService
+
+ExecutorService 接口继承Executor接口，该接口定义了几个submit方法， 这些方法能够接受
+Callable接口或者Runnable接口表示的任务并返回响应的Future实例，ThreadPoolExecutor是
+ExecutorService的默认实现类。
+ 实用工具类Executors能将Runnable实例转还为Callable实例之外，还提供了
+ 一些能够返回ExecutorService实例的快捷方法。 使我们不必要手动创建ThreadPoolExecutor实例的情况下实用线程池，
+ 
+ ExecutorService  es  = Executors.newCachedThreadPool() 适用执行大量耗时较短且提交比较频繁的任务。
+ 
+ ExecutorService  es  = Executors.newFiexdThreadPool() 适用核心线程池大小等于其最大线程池。
+ 
+ ExecutorService  es  = Executors.newSingleThreadPool() 适用生存者与消费者模式的场景。
+ 
+		
 为了便于跨大量上下文使用，此类提供了很多可调整的参数和扩展钩子 (hook)。但是，强烈建议程序员使用较为方便的 Executors 工厂方法 Executors.newCachedThreadPool()（无界线程池，可以进行自动线程回收）、Executors.newFixedThreadPool(int)（固定大小线程池）和 Executors.newSingleThreadExecutor()（单个后台线程），它们均为大多数使用场景预定义了设置。否则，在手动配置和调整此类时，使用以下指导：
 
 23.BlockingQueue
 
 
-
 插入 ：
-boolean add(e)     将指定的元素插入此队列（如果立即可行且不会违反容量限制），在成功时返回 true，如果当前没有可用的空间，则抛出 IllegalStateException;    
+boolean  add(e)     将指定的元素插入此队列（如果立即可行且不会违反容量限制），在成功时返回 true，如果当前没有可用的空间，则抛出 IllegalStateException;    
 boolean offer(e)   将指定元素插入到此队列的尾部（如果立即可行且不会超出此队列的容量），在成功时返回 true，如果此队列已满，则返回 false。非阻塞方法
 
 移除 :

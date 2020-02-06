@@ -14,10 +14,10 @@ public class TestThreadLocal {
 	}
 	
 	
-	static ThreadLocal<String>  localVar = new ThreadLocal<>();
+	static ThreadLocal<String>  localVar = new ThreadLocal<String>();
 	
 	public static void main(String[] args) {
-		
+		 
 		Thread t = new Thread(new Runnable() {
 
 			@Override
