@@ -17,7 +17,9 @@ public class TempObject implements Comparable<TempObject> {
 
 	@Override
 	public int compareTo(TempObject o) {
-		System.out.println("abc");
+		int a = o.getIndex() - this.index;
+		System.out.println(a);
+		
 		return o.getIndex() - this.index;
 	}
 	
