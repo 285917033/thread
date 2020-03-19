@@ -2,6 +2,7 @@ package com.mopon.thread;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 /**
@@ -68,7 +69,7 @@ public class ExtendThreadPoolExecutor extends ThreadPoolExecutor {
 		}
 	
 	public static void main(String[] args) {
-		
+	
 		ExtendThreadPoolExecutor  pool = new ExtendThreadPoolExecutor(5,5,1000,TimeUnit.MILLISECONDS,new ArrayBlockingQueue<Runnable>(5));
 		
 		//π§æﬂ¿‡Executors£¨
