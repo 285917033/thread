@@ -6,32 +6,32 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 /**
- * ×Ô¶¨ÒåÏß³Ì³Ø£¬ÐèÒª¼Ì³ÐThreadPoolExecutorÀà£¬¸ÃÀàÓÐ3¸öÃ»ÓÐ¾ßÌåÊµÏÖµÄ·½·¨£¬ ÎÒÃÇ¿ÉÒÔÊµÏÖ£¬
- * ÕâÈý¸ö·½·¨¿ÉÒÔ°ïÖúÎÒÃÇÔÙÏß³Ì³Ø²»Í¬½×¶Î´¦ÀíÈÎÎñÊ±£¬ÊµÏÖ²»Í¬µÄÒµÎñÂß¼­
- * 1.beforeExecute,µ±Ïß³Ì³ØÕýÒª¿ªÊ¼Ö´ÐÐÄ³¸öÈÎÎñµÄÊ±ºò(×¢Òâ²»ÊÇÈÎÎñ½øÈëµÈ´ý¶ÓÁÐµÄÊ±ºò,ÊÇ½«Òª¿ªÊ¼ÕýÊ½ÔÚÏß³Ì³ØÖÐÖ´ÐÐµÄÊ±ºò)
- *     Ïß³Ì³Ø»á´¥·¢Õâ¸ö·½·¨µÄµ÷ÓÃ
+ * ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ß³Ì³Ø£ï¿½ï¿½ï¿½Òªï¿½Ì³ï¿½ThreadPoolExecutorï¿½à£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½3ï¿½ï¿½Ã»ï¿½Ð¾ï¿½ï¿½ï¿½Êµï¿½ÖµÄ·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½Êµï¿½Ö£ï¿½
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì³Ø²ï¿½Í¬ï¿½×¶Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Êµï¿½Ö²ï¿½Í¬ï¿½ï¿½Òµï¿½ï¿½ï¿½ß¼ï¿½
+ * 1.beforeExecute,ï¿½ï¿½ï¿½ß³Ì³ï¿½ï¿½ï¿½Òªï¿½ï¿½Ê¼Ö´ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½(×¢ï¿½â²»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È´ï¿½ï¿½ï¿½ï¿½Ðµï¿½Ê±ï¿½ï¿½,ï¿½Ç½ï¿½Òªï¿½ï¿½Ê¼ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ß³Ì³ï¿½ï¿½ï¿½Ö´ï¿½Ðµï¿½Ê±ï¿½ï¿½)
+ *     ï¿½ß³Ì³Ø»á´¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½
  * 
- * 2.afterExecute,µ±Ïß³Ì³ØÍê³ÉÁËÄ³Ò»¸öÈÎÎñµÄÖ´ÐÐºó£¬Ïß³Ì³Ø»á´¥·¢Õâ¸ö·½·¨
+ * 2.afterExecute,ï¿½ï¿½ï¿½ß³Ì³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ðºï¿½ï¿½ß³Ì³Ø»á´¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  *   
- * 3.terminated,µ±Ïß³Ì³Ø±¾ÉíÍ£Ö¹Ö´ÐÐµÄÊ±ºò£¬¸Ã·½·¨¾Í»á±»µ÷ÓÃ¡£
+ * 3.terminated,ï¿½ï¿½ï¿½ß³Ì³Ø±ï¿½ï¿½ï¿½Í£Ö¹Ö´ï¿½Ðµï¿½Ê±ï¿½ò£¬¸Ã·ï¿½ï¿½ï¿½ï¿½Í»á±»ï¿½ï¿½ï¿½Ã¡ï¿½
  * @author zgh
  * 
  * 
- * 5-2¡¢execute·½·¨ºÍsubmit·½·¨µÄÇø±ð
-ÉÏÃæµÄÊ¾Àý´úÂëÖÐ£¬ÎÒÃÇÊ¹ÓÃµÄÊÇexecute·½·¨À´Ìá½»ÈÎÎñ£»¶øÉÏÎÄÓÐµÄÊ¾Àý´úÂëÖÐ£¬ÎÒÃÇÊ¹ÓÃµÄÊÇsubmit·½·¨Ìá½»ÈÎÎñ¡£ThreadPoolExecutorÏß³Ì³ØÖÐ£¬ÕâÁ½ÖÖ·½·¨Ìá½»ÈÎÎñ¶¼ÊÇ¿ÉÒÔµÄ£¬µ«ÊÇËûÃÇµÄ¹¤×÷Ô­ÀíÊÇ²»Ò»ÑùµÄ£º
+ * 5-2ï¿½ï¿½executeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½submitï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½Ãµï¿½ï¿½ï¿½executeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á½»ï¿½ï¿½ï¿½ñ£»¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½Ãµï¿½ï¿½ï¿½submitï¿½ï¿½ï¿½ï¿½ï¿½á½»ï¿½ï¿½ï¿½ï¿½ThreadPoolExecutorï¿½ß³Ì³ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½á½»ï¿½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ÔµÄ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÇµÄ¹ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½Ç²ï¿½Ò»ï¿½ï¿½ï¿½Ä£ï¿½
 
-execute·½·¨£ºËùÓÐÊµÏÖÁËRunnable½Ó¿ÚµÄÈÎÎñ¶¼¿ÉÒÔÊ¹ÓÃexecute·½·¨½øÐÐÌá½»¡£¶øÊµÏÖÁËRunnable½Ó¿ÚµÄÈÎÎñ£¬²¢Ã»ÓÐÌá¹©ÈÎºÎ¡°±ê×¼¡±µÄ·½Ê½ÎªÎÒÃÇ·µ»ØÈÎÎñµÄÖ´ÐÐ½á¹û£¨ÕâÊÇÎÒÃÇ»¹Ã»ÓÐ½²µ½µÄÖªÊ¶µã£©¡£Ïß³ÌÔÚÏß³Ì³ØÖÐÔËÐÐ½áÊøÁË£¬¾Í½áÊøÁË¡£ËùÒÔ£¬Ê¹ÓÃexecute·½·¨Ìá½»µÄÈÎÎñ£¬³ÌÐòÔ±²¢²»ÄÜÔÚÈÎÎñÖ´ÐÐÍê³Éºó£¬»ñµÃÒ»¸ö¡°±ê×¼¡±µÄÖ´ÐÐ½á¹û¡£
+executeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Runnableï¿½Ó¿Úµï¿½ï¿½ï¿½ï¿½ñ¶¼¿ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½executeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á½»ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Runnableï¿½Ó¿Úµï¿½ï¿½ï¿½ï¿½ñ£¬²ï¿½Ã»ï¿½ï¿½ï¿½á¹©ï¿½ÎºÎ¡ï¿½ï¿½ï¿½×¼ï¿½ï¿½ï¿½Ä·ï¿½Ê½Îªï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç»ï¿½Ã»ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ÖªÊ¶ï¿½ã£©ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½ï¿½ß³Ì³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½Í½ï¿½ï¿½ï¿½ï¿½Ë¡ï¿½ï¿½ï¿½ï¿½Ô£ï¿½Ê¹ï¿½ï¿½executeï¿½ï¿½ï¿½ï¿½ï¿½á½»ï¿½ï¿½ï¿½ï¿½ï¿½ñ£¬³ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½Éºó£¬»ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¼ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ð½ï¿½ï¿½ï¿½ï¿½
 
-submit·½·¨£ºsubmit·½·¨Ìá½»µÄÈÎÎñÊÇÊµÏÖÁËCallable½Ó¿ÚµÄÈÎÎñ£¨ÕâÊÇÎÒÃÇ»¹Ã»ÓÐ½²µ½µÄÖªÊ¶µã£©¡£Callable½Ó¿ÚµÄÌØÐÔÊÇ£¬ÔÚÆäÔËÐÐÍê³Éºó£¬»á·µ»ØÒ»¸ö¡°±ê×¼¡±µÄÖ´ÐÐ½á¹û¡£
+submitï¿½ï¿½ï¿½ï¿½ï¿½ï¿½submitï¿½ï¿½ï¿½ï¿½ï¿½á½»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Callableï¿½Ó¿Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç»ï¿½Ã»ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ÖªÊ¶ï¿½ã£©ï¿½ï¿½Callableï¿½Ó¿Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éºó£¬»á·µï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¼ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ð½ï¿½ï¿½ï¿½ï¿½
 
-µ«ÓÐµÄ¶ÁÕß¿ÉÄÜ»áÎÊ£¬²»ÊÇËµsubmit·½·¨Ò²¿ÉÒÔÌá½»ÊµÏÖRunnable½Ó¿ÚµÄÈÎÎñÂð£¿ÄãÖ®Ç°Ò²ÊÇÕâÃ´Ê¹ÓÃµÄ¡£ÊÇµÄ£¬submit·½·¨Ò²¿ÉÒÔÌá½»ÊµÏÖRunnable½Ó¿ÚµÄÈÎÎñ£¬µ«ÊÇ´¦Àí·½Ê½ºÍexecute·½·¨µÄ´¦Àí·½Ê½ÍêÈ«²»Í¬£ºÊ¹ÓÃsubmit·½·¨Ìá½»µÄÊµÏÖÁËRunnable½Ó¿ÚµÄÈÎÎñ£¬½«»á±»·â×°µ½ Ïß³Ì³ØÄÚ²¿Ê¹ÓÃExecutors¹¤¾ßÖÐcallable·½·¨´´½¨µÄRunnableAdapter¶ÔÏóÖÐ¡£Ô´´úÂëÆ¬¶ÎÈçÏÂ£º
+ï¿½ï¿½ï¿½ÐµÄ¶ï¿½ï¿½ß¿ï¿½ï¿½Ü»ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½Ëµsubmitï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½á½»Êµï¿½ï¿½Runnableï¿½Ó¿Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®Ç°Ò²ï¿½ï¿½ï¿½ï¿½Ã´Ê¹ï¿½ÃµÄ¡ï¿½ï¿½ÇµÄ£ï¿½submitï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½á½»Êµï¿½ï¿½Runnableï¿½Ó¿Úµï¿½ï¿½ï¿½ï¿½ñ£¬µï¿½ï¿½Ç´ï¿½ï¿½ï¿½Ê½ï¿½ï¿½executeï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½Ê½ï¿½ï¿½È«ï¿½ï¿½Í¬ï¿½ï¿½Ê¹ï¿½ï¿½submitï¿½ï¿½ï¿½ï¿½ï¿½á½»ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Runnableï¿½Ó¿Úµï¿½ï¿½ï¿½ï¿½ñ£¬½ï¿½ï¿½á±»ï¿½ï¿½×°ï¿½ï¿½ ï¿½ß³Ì³ï¿½ï¿½Ú²ï¿½Ê¹ï¿½ï¿½Executorsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½callableï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½RunnableAdapterï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½Ô´ï¿½ï¿½ï¿½ï¿½Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½Â£ï¿½
 
 
-ÎÒ»áËµÃ÷Ö»ÄÜÊ¹ÓÃextendsPool.executeÌá½»ÈÎÎñ£¬ ¶ø²»ÒªÊ¹ÓÃextendsPool.submitÌá½»ÈÎÎñ¡£ÒòÎªÈç¹ûÊ¹ÓÃextendsPool.submitÌá½»ÈÎÎñ£¬ÄÇÃ´ÄúÊ¹ÓÃµÄhook method£ºbeforeExecuteºÍafterExecute£¬ËäÈ»¿ÉÒÔÄÃµ½Ò»¸öRunnable¶ÔÏó£¬µ«ÊÇÕâ¸öRunnable¶ÔÏóÈ´²»ÊÇÄú´´½¨µÄRunnableÈÎÎñ±¾Éí¡£¶øÊÇÒ»¸öFutureTask¶ÔÏó£¬ÀïÃæ·â×°ÁËÒ»¸öRunnableAdapter¶ÔÏó£¬ÔÚRunnableAdapter¶ÔÏóÀïÃæ£¬²ÅÊÇÄúµÄRunnableÈÎÎñ±¾Éí£º
+ï¿½Ò»ï¿½Ëµï¿½ï¿½Ö»ï¿½ï¿½Ê¹ï¿½ï¿½extendsPool.executeï¿½á½»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ÒªÊ¹ï¿½ï¿½extendsPool.submitï¿½á½»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Ê¹ï¿½ï¿½extendsPool.submitï¿½á½»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã´ï¿½ï¿½Ê¹ï¿½Ãµï¿½hook methodï¿½ï¿½beforeExecuteï¿½ï¿½afterExecuteï¿½ï¿½ï¿½ï¿½È»ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½Ò»ï¿½ï¿½Runnableï¿½ï¿½ï¿½ó£¬µï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Runnableï¿½ï¿½ï¿½ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Runnableï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½FutureTaskï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×°ï¿½ï¿½Ò»ï¿½ï¿½RunnableAdapterï¿½ï¿½ï¿½ï¿½ï¿½ï¿½RunnableAdapterï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Runnableï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-ExecutorsÊÇÒ»¸öÓÃÓÚ´´½¨¸÷ÖÖÏß³Ì³ØÌØÐÔµÄ¹¤¾ßÀà¡£Í¨³£Çé¿öÏÂ£¬ÄúÊ¹ÓÃÕâ¸ö¹¤¾ßÀà´´½¨µÄÏß³Ì³Ø¾Í¿ÉÒÔº­¸Ç90%ÒÔÉÏµÄÒµÎñ³¡¾°ÁË¡£
+Executorsï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì³ï¿½ï¿½ï¿½ï¿½ÔµÄ¹ï¿½ï¿½ï¿½ï¿½à¡£Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â£ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à´´ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì³Ø¾Í¿ï¿½ï¿½Ôºï¿½ï¿½ï¿½90%ï¿½ï¿½ï¿½Ïµï¿½Òµï¿½ñ³¡¾ï¿½ï¿½Ë¡ï¿½
 
-Èç¹ûÄú¹Û²ìÒ»ÏÂExecutorsÀàµÄÔ´´úÂë£¬Äú¾Í¿ÉÒÔ·¢ÏÖExecutors¹¤¾ßÀàÊµ¼ÊÉÏ¾ÍÊÇ°ïÖúÄúÍê³ÉÁËÌØ¶¨Ïß³Ì³ØµÄ´´½¨¹ý³Ì
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û²ï¿½Ò»ï¿½ï¿½Executorsï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½Í¿ï¿½ï¿½Ô·ï¿½ï¿½ï¿½Executorsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½Ï¾ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ß³Ì³ØµÄ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  *
  */
 public class ExtendThreadPoolExecutor extends ThreadPoolExecutor {
@@ -43,8 +43,8 @@ public class ExtendThreadPoolExecutor extends ThreadPoolExecutor {
 		
 	}
 /**
- * Èç¹ûÄú·ÇÒªÊ¹ÓÃsubmitÌá½»ÈÎÎñ£¬ÄÇÃ´ÔÚÖ´ÐÐµ½£ºTestRunnable testRunnable = (TestRunnable)r; µÄÊ±ºò£¬
- * ¾Í»áÅ×³ö¶ÔÏóÀàÐÍ×ª»»´íÎó£¨²»¹ýÄúÀí½âÁËÔ­Òòºó£¬µ±È»¿ÉÒÔ¸ÄÊ¾Àý´úÂëÁË£©¡£
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒªÊ¹ï¿½ï¿½submitï¿½á½»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã´ï¿½ï¿½Ö´ï¿½Ðµï¿½ï¿½ï¿½TestRunnable testRunnable = (TestRunnable)r; ï¿½ï¿½Ê±ï¿½ï¿½
+ * ï¿½Í»ï¿½ï¿½×³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ó£¨²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ó£¬µï¿½È»ï¿½ï¿½ï¿½Ô¸ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½
  */
 	
 	@Override
@@ -72,30 +72,30 @@ public class ExtendThreadPoolExecutor extends ThreadPoolExecutor {
 	
 		ExtendThreadPoolExecutor  pool = new ExtendThreadPoolExecutor(5,5,1000,TimeUnit.MILLISECONDS,new ArrayBlockingQueue<Runnable>(5));
 		
-		//¹¤¾ßÀàExecutors£¬
-//		Executors.newCachedThreadPool(); ´´½¨Í¬²½¶ÓÁÐµÄÏß³Ì³Ø£¬×¢Òâ¸ÃÏß³Ì³ØºËÐÄÏß³ÌÊýÎª0£¬×î´óÏß³Ì³ØÊýÎª2^32-1£¬¿ÕÏÐÏß³ÌÖ»´æ»î60Ãë£»µÈ´ý¶ÓÁÐ²¢²»ÄÜ´æ´¢RunnableÈÎÎñ£¬·´¶øÊ¹µÃÏß³Ì³Ø¼ÌÐø´´½¨Ïß³ÌÀ´Ö´ÐÐÈÎÎñ¡£
-//	CachedThreadPoolËùÉèÖÃµÄµÈ´ý¶ÓÁÐµÄÀàÐÍÊÇSynchronousQueue£¬ÒâÎ¶×ÅÈÎÎñ½«»áÁ¢¼´±»ËÍÈëÏß³Ì³ØÖ´ÐÐ£¨Èç¹ûÕâÊ±Ã»ÓÐ¿ÕÏÐµÄÏß³Ì£¬ÔòÁ¢¼´´´½¨ÐÂµÄÏß³Ì£©¡£
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Executorsï¿½ï¿½
+//		Executors.newCachedThreadPool(); ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ß³Ì³Ø£ï¿½×¢ï¿½ï¿½ï¿½ï¿½ß³Ì³Øºï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½Îª0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì³ï¿½ï¿½ï¿½Îª2^32-1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½Ö»ï¿½ï¿½ï¿½60ï¿½ë£»ï¿½È´ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½Ü´æ´¢Runnableï¿½ï¿½ï¿½ñ£¬·ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ß³Ì³Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//	CachedThreadPoolï¿½ï¿½ï¿½ï¿½ï¿½ÃµÄµÈ´ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SynchronousQueueï¿½ï¿½ï¿½ï¿½Î¶ï¿½ï¿½ï¿½ï¿½ï¿½ñ½«»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì³ï¿½Ö´ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±Ã»ï¿½Ð¿ï¿½ï¿½Ðµï¿½ï¿½ß³Ì£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ß³Ì£ï¿½ï¿½ï¿½
 		
 //		Executors.newSingleThreadExecutor();
-//		Õâ¶Î´úÂëÔÚExecutors¹¤¾ßÀàÖÐ£¬ÓÃÓÚ´´½¨Ö»ÓÐÒ»¸ö¹Ì¶¨Ïß³ÌµÄÏß³Ì³Ø¡£¼´corePoolSize ºÍmaximumPoolSizeµÄÖµ¶¼µÈÓÚ1¡£Õâ¸ùÏß³ÌÒ²²»»á±»»ØÊÕ£¬È»ºó½«LinkedBlockingQueueÕâ¸öÎÞ´óÐ¡ÏÞÖÆµÄÏÈ½øÏÈ³ö¶ÓÁÐÖÐµÄÃ¿¸öÈÎÎñ£¬°´ÕÕË³Ðò½øÐÐ´¦Àí¡£
+//		ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½ï¿½Executorsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½Ö»ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ß³Ìµï¿½ï¿½ß³Ì³Ø¡ï¿½ï¿½ï¿½corePoolSize ï¿½ï¿½maximumPoolSizeï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½Ò²ï¿½ï¿½ï¿½á±»ï¿½ï¿½ï¿½Õ£ï¿½È»ï¿½ï¿½LinkedBlockingQueueï¿½ï¿½ï¿½ï¿½Þ´ï¿½Ð¡ï¿½ï¿½ï¿½Æµï¿½ï¿½È½ï¿½ï¿½È³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ñ£¬°ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½
 //
-//		ÏÔÈ»£¬´¦ÀíµÄ¼´Ê±ÐÔ²¢²»ÊÇÕâÖÐÌØÐÔµÄÏß³Ì³Ø¹ØÐÄµÄÖØµã£»ËüµÄÖØµãÏÔÈ»ÊÇ±£Ö¤LinkedBlockingQueueÖÐµÄµÈ´ýÈÎÎñÄÜ¹»°´ÕÕ¼È¶¨Ë³Ðò±»´¦Àí¡£
+//		ï¿½ï¿½È»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Ê±ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½ï¿½ß³Ì³Ø¹ï¿½ï¿½Äµï¿½ï¿½Øµã£»ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½È»ï¿½Ç±ï¿½Ö¤LinkedBlockingQueueï¿½ÐµÄµÈ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¹ï¿½ï¿½ï¿½ï¿½Õ¼È¶ï¿½Ë³ï¿½ò±»´ï¿½ï¿½ï¿½
 		
 //		
 //		/**
-//		 * ÊÇ·ñÔÚ³¬¹ýµÈ´ýÊ±¼äºó£¬¾ÍÁ¬Ïß³Ì³ØÖÐÐ¡ÓÚcorePoolSizeµÄ¡°ºËÐÄÏß³Ì¡±¶ÔÏóÒ²½øÐÐ»ØÊÕ¡£
-//		 * Ä¬ÈÏÇé¿öÎªfalse
+//		 * ï¿½Ç·ï¿½ï¿½Ú³ï¿½ï¿½ï¿½ï¿½È´ï¿½Ê±ï¿½ï¿½ó£¬¾ï¿½ï¿½ï¿½ï¿½ß³Ì³ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½corePoolSizeï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì¡ï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½Ð»ï¿½ï¿½Õ¡ï¿½
+//		 * Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½Îªfalse
 //		 */
 //		private volatile boolean allowCoreThreadTimeOut;
 //
 //		/**
-//		 * ¡°ºËÐÄÏß³Ì¡±µÄ´óÐ¡¡£Ð¡ÓÚ»òÕßµÈÓÚÕâ¸öÊýÁ¿µÄÏß³Ì£¬¼´±ã³¬¹ýkeepAliveTimeÒ²²»»á±»»ØÊÕ£¬
-//		 * ³ý·ÇallowCoreThreadTimeOutÉèÖÃÎªtrue
+//		 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì¡ï¿½ï¿½Ä´ï¿½Ð¡ï¿½ï¿½Ð¡ï¿½Ú»ï¿½ï¿½ßµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì£ï¿½ï¿½ï¿½ï¿½ã³¬ï¿½ï¿½keepAliveTimeÒ²ï¿½ï¿½ï¿½á±»ï¿½ï¿½ï¿½Õ£ï¿½
+//		 * ï¿½ï¿½ï¿½ï¿½allowCoreThreadTimeOutï¿½ï¿½ï¿½ï¿½Îªtrue
 //		 */
 //		private volatile int corePoolSize;
 		
 //		Executors.newFixedThreadPool(5)
-//		ÒÔÉÏ´úÂëÆ¬¶Î¾ÍÊÇExecutors¹¤¾ßÀà´´½¨¹Ì¶¨´óÐ¡µÄThreadPoolExecutorÏß³Ì³ØµÄ¹ý³Ì¡£Êµ¼ÊÉÏ¾ÍÊÇ°ÑcorePoolSize ºÍmaximumPoolSize µÄÖµÉèÖÃ³ÉÒ»Ñù£¬Ò²¾ÍÊÇÏß³Ì³ØÖÐÖ»ÓÐ¡°ºËÐÄÏß³Ì¡±¡ª¡ªÄÇÐ©´´½¨ÁË¾Í²»»á»ØÊÕµÄÏß³Ì¡£²¢ÇÒÏß³Ì³ØµÄµÈ´ý¶ÓÁÐÉèÖÃÎªLinkedBlockingQueue¡ª¡ªÒ»ÖÖÃ»ÓÐÊýÁ¿ÏÞÖÆµÄÏÈ½øÏÈ³ö¶ÓÁÐ¡£
+//		ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½Æ¬ï¿½Î¾ï¿½ï¿½ï¿½Executorsï¿½ï¿½ï¿½ï¿½ï¿½à´´ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ThreadPoolExecutorï¿½ß³Ì³ØµÄ¹ï¿½ï¿½Ì¡ï¿½Êµï¿½ï¿½ï¿½Ï¾ï¿½ï¿½Ç°ï¿½corePoolSize ï¿½ï¿½maximumPoolSize ï¿½ï¿½Öµï¿½ï¿½ï¿½Ã³ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì³ï¿½ï¿½ï¿½Ö»ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð©ï¿½ï¿½ï¿½ï¿½ï¿½Ë¾Í²ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½ß³Ì¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì³ØµÄµÈ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªLinkedBlockingQueueï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½È½ï¿½ï¿½È³ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½
 //	
 		
 		for(int index = 1 ; index < 11 ; index++) {
@@ -104,13 +104,13 @@ public class ExtendThreadPoolExecutor extends ThreadPoolExecutor {
 		}
 		
 		
-		// ·¢³öÍ£Ö¹Ö¸Áî¡£×¢ÒâÍ£Ö¹Ö¸Áî±¾Éí²»»áµÈ´ý£¬ÒªÊ¹ÓÃawaitTermination½øÐÐµÈ´ý¡£
-        // ×¢Òâ£¬°´ÕÕÎÒÃÇÉÏÎÄ½²¹ýµÄÏß³Ì³ØµÄ¹¤×÷Ô­Àí£¬Ïß³Ì³ØÔÚÊÕµ½shutdownÖÕÖ¹Ö¸Áîºó
-        // ¾Í²»»áÔÙ½ÓÊÜÌá½»¹ýÀ´µÄÈÎÎñÁË£¬ÎÞÂÛ¡°ºËÐÄÏß³Ì¡±¡¢µÈ´ý¶ÓÁÐ´¦ÓÚÊ²Ã´ÑùµÄ×´Ì¬£¡
+		// ï¿½ï¿½ï¿½ï¿½Í£Ö¹Ö¸ï¿½î¡£×¢ï¿½ï¿½Í£Ö¹Ö¸ï¿½î±¾ï¿½ï¿½ï¿½ï¿½È´ï¿½ï¿½ï¿½ÒªÊ¹ï¿½ï¿½awaitTerminationï¿½ï¿½ï¿½ÐµÈ´ï¿½ï¿½ï¿½
+        // ×¢ï¿½â£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì³ØµÄ¹ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ß³Ì³ï¿½ï¿½ï¿½ï¿½Õµï¿½shutdownï¿½ï¿½Ö¹Ö¸ï¿½ï¿½ï¿½
+        // ï¿½Í²ï¿½ï¿½ï¿½ï¿½Ù½ï¿½ï¿½ï¿½ï¿½á½»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½Û¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì¡ï¿½ï¿½ï¿½ï¿½È´ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½Ê²Ã´ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½
 
-		pool.shutdown(); //·¢³öÍ£Ö¹Ö¸Áî¡£×¢ÒâÍ£Ö¹Ö¸Áî±¾Éí²»»áµÈ´ý
+		pool.shutdown(); //ï¿½ï¿½ï¿½ï¿½Í£Ö¹Ö¸ï¿½î¡£×¢ï¿½ï¿½Í£Ö¹Ö¸ï¿½î±¾ï¿½ï¿½ï¿½ï¿½È´ï¿½
 		try {
-			//  µ±ËùÓÐÈÎÎñÖ´ÐÐÍê³Éºó£¬ÖÕÖ¹Ïß³Ì³ØµÄÔËÐÐ
+			//  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½Éºï¿½ï¿½ï¿½Ö¹ï¿½ß³Ì³Øµï¿½ï¿½ï¿½ï¿½ï¿½
 			pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
